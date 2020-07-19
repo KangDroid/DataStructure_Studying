@@ -22,6 +22,7 @@ public:
 
     // Sort Algorithm
     void selection_sort();
+    void insertion_sort();
 
     // Sort Checker
     bool is_sorted();
@@ -66,6 +67,22 @@ void ArraySort<Type>::selection_sort() {
         array_pointer[i] = array_pointer[minidx];
         array_pointer[minidx] = tmp;
     }    
+}
+
+template<typename Type>
+void ArraySort<Type>::insertion_sort() {
+    int i, j;
+    for (i = 1; i < length_array; i++) {
+        int key = array_pointer[i];
+        for (j = i-1; j >= 0; j--) {
+            if (key < array_pointer[j]) {
+                array_pointer[j+1] = array_pointer[j];
+            } else {
+                break;
+            }
+        }
+        array_pointer[j+1] = key;
+    }
 }
 
 template<typename Type>
