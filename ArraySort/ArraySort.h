@@ -26,6 +26,7 @@ public:
     // Sort Algorithm
     void selection_sort();
     void insertion_sort();
+    void bubble_sort();
 
     // Sort Checker
     bool is_sorted();
@@ -101,6 +102,20 @@ void ArraySort<Type>::insertion_sort() {
             }
         }
         array_pointer[j+1] = key;
+    }
+}
+
+template<typename Type>
+void ArraySort<Type>::bubble_sort() {
+    for (int i = 0; i < length_array; i++) {
+        for (int j = 0; j < length_array; j++) {
+            if (array_pointer[j] > array_pointer[i]) {
+                // swap j and i
+                Type tmp = array_pointer[j];
+                array_pointer[j] = array_pointer[i];
+                array_pointer[i] = tmp;
+            }
+        }
     }
 }
 

@@ -50,6 +50,20 @@ int main(void) {
     }
     cout << as << endl;
 
+    // Bubble Sort
+    cout << "Bubble Sort Test" << endl;
+    for (int i = 0; i < as.length(); i++) {
+        as.setValue(i, rand() % 100);
+    }
+    as.bubble_sort();
+
+    if (as.is_sorted()) {
+        cout << "This array looks like sorted" << endl;
+    } else {
+        cout << "This array is not sorted" << endl;
+    }
+    cout << as << endl;
+
     // reserve test
     cout << "Reserve Test" << endl;
     as.reserve(100);
