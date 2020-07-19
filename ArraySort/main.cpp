@@ -19,7 +19,18 @@ ostream& operator<<(ostream& os, ArraySort<Type>& tmp) {
 }
 
 int main(void) {
-    ArraySort<int> as;
+    srand(time(NULL));
+    ArraySort<int> as(50);
+    for (int i = 0; i < as.length(); i++) {
+        as.setValue(i, rand() % 100);
+    }
+    as.selection_sort();
+
+    if (as.is_sorted()) {
+        cout << "This array looks like sorted" << endl;
+    } else {
+        cout << "This array is not sorted" << endl;
+    }
     cout << as << endl;
     return 0;
 }
