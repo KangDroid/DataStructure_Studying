@@ -49,5 +49,10 @@ int main(void) {
         cout << "This array is not sorted" << endl;
     }
     cout << as << endl;
+
+    // reserve test
+    cout << "Reserve Test" << endl;
+    as.reserve(100);
+    cout << as << endl;
     return 0;
 }

@@ -13,6 +13,9 @@ public:
     ArraySort();
     ~ArraySort();
 
+    // Reserve
+    void reserve(int amount = 10);
+
     // Getter
     int length();
     Type operator[](int idx);
@@ -41,6 +44,22 @@ ArraySort<Type>::ArraySort() : ArraySort(10) {
 template<typename Type>
 ArraySort<Type>::~ArraySort() {
     delete[] array_pointer;
+}
+
+template<typename Type>
+void ArraySort<Type>::reserve(int amount) {
+    int tmplength = this->length_array;
+    this->length_array += amount;
+    Type *tmp = new Type[length_array];
+    for (int i = 0; i < tmplength; i++) {
+        if (i < tmplength) {
+            tmp[i] = array_pointer[i];
+        }
+    }
+
+    // delete original one
+    delete[] array_pointer;
+    array_pointer = tmp;
 }
 
 template<typename Type>
