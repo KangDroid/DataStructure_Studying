@@ -28,6 +28,9 @@ public:
     void insertion_sort();
     void bubble_sort();
 
+    // Merge(Not sort) Algorithm
+    void merge(Type* first_half, Type* second_half, int first_length, int second_length);
+
     // Sort Checker
     bool is_sorted();
 };
@@ -117,6 +120,43 @@ void ArraySort<Type>::bubble_sort() {
             }
         }
     }
+}
+
+template<typename Type>
+void ArraySort<Type>::merge(Type* first_half, Type* second_half, int first_length, int second_length) {
+    int first_iter = 0, second_iter = 0, merge_iter = 0;
+    const int new_length = first_length + second_length;
+    Type* tmp = new Type[new_length];
+    while (second_iter < second_length && first_iter < first_length) {
+        if (first_half[first_iter] < second_half[second_iter]) {
+            tmp[merge_iter] = first_half[first_iter];
+            merge_iter++; first_iter++;
+        } else {
+            tmp[merge_iter] = second_half[second_iter];
+            merge_iter++; second_iter++;
+        }
+    }
+
+    // Check whether anything finished
+    if (first_iter == first_length && second_iter < second_length) {
+        // Put everything on second - first finished
+        while (second_iter < second_length) {
+            tmp[merge_iter++] = second_half[second_iter++];
+        }
+    } else if (second_iter == second_length && first_iter < first_length) {
+        // Put everything on first - second finished
+        while (first_iter < first_length) {
+            tmp[merge_iter++] = first_half[first_iter++];
+        }
+    } else {
+        cout << "Something went wrong." << endl;
+    }
+
+    cout << "Combined one:" << endl;
+    for (int i = 0; i < new_length; i++) {
+        cout << tmp[i] << endl;
+    }
+    delete[] tmp;
 }
 
 template<typename Type>

@@ -68,5 +68,10 @@ int main(void) {
     cout << "Reserve Test" << endl;
     as.reserve(100);
     cout << as << endl;
+
+    // Merge Algorithm test 
+    int tmp[2] = {5, 6};
+    int tmp_two[2] = {1, 2};
+    as.merge(tmp, tmp_two, 2, 2);
     return 0;
 }
