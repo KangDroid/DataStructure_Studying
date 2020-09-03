@@ -6,6 +6,7 @@ template <typename Type>
 class ArraySort {
 private:
     Type* array_pointer;
+    Type* duplicate_sort;
     int length_array;
 
 public:
@@ -30,16 +31,47 @@ public:
 
     // Merge(Not sort) Algorithm
     void merge(Type* first_half, Type* second_half, int first_length, int second_length);
+    void _merge(Type* array, int start, int middle, int end);
+
+    void merge_sort();
+    void _merge_sort(Type* array, int start_point, int endpoint);
 
     // Sort Checker
     bool is_sorted();
+
+    void print() {
+        for (int i = 0; i < length_array; i++) {
+            cout << array_pointer[i] << " ";
+        }
+        cout << endl;
+    }
 };
 
 template<typename Type>
 ArraySort<Type>::ArraySort(int preserve) {
     this->length_array = preserve;
     this->array_pointer = new Type[length_array];
+    this->duplicate_sort = new Type[length_array];
 }
+
+
+template<typename Type>
+void ArraySort<Type>::merge_sort() {
+    _merge_sort(this->array_pointer, 0, this->length_array-1);
+}
+
+template<typename Type>
+void ArraySort<Type>::_merge_sort(Type* array, int start_point, int endpoint) {
+    if (start_point < endpoint) {
+        int middle = (start_point+endpoint)/2;
+        _merge_sort(array, start_point, middle);
+        _merge_sort(array, middle+1, endpoint);
+        _merge(array, start_point, middle, endpoint);
+        // Merge array - start_point ~ middle
+        // Merge Array - middle+1 ~ endpoint
+    }
+}
+
 
 template<typename Type>
 ArraySort<Type>::ArraySort() : ArraySort(10) {
@@ -48,6 +80,7 @@ ArraySort<Type>::ArraySort() : ArraySort(10) {
 template<typename Type>
 ArraySort<Type>::~ArraySort() {
     delete[] array_pointer;
+    delete[] duplicate_sort;
 }
 
 template<typename Type>
@@ -64,6 +97,10 @@ void ArraySort<Type>::reserve(int amount) {
     // delete original one
     delete[] array_pointer;
     array_pointer = tmp;
+    if (duplicate_sort != nullptr) {
+        delete[] duplicate_sort;
+    }
+    duplicate_sort = new Type[length_array];
 }
 
 template<typename Type>
@@ -119,6 +156,30 @@ void ArraySort<Type>::bubble_sort() {
                 array_pointer[i] = tmp;
             }
         }
+    }
+}
+template<typename Type>
+void ArraySort<Type>::_merge(Type* array, int start, int middle, int end) {
+    int first_idx = start, second_idx = middle+1, add_idx = start;
+    while (first_idx <= middle && second_idx <= end) {
+        if (array[first_idx] < array[second_idx]) {
+            duplicate_sort[add_idx++] = array[first_idx++];
+        } else {
+            duplicate_sort[add_idx++] = array[second_idx++];
+        }
+    }
+
+    if (first_idx <= middle) {
+        while(first_idx <= middle) {
+            duplicate_sort[add_idx++] = array[first_idx++];
+        }
+    } else if (second_idx <= end) {
+        while(second_idx <= end) {
+            duplicate_sort[add_idx++] = array[second_idx++];
+        }
+    }
+    for (int i = start; i <= end; i++) {
+        array[i] = duplicate_sort[i];
     }
 }
 
