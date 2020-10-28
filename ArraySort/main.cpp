@@ -6,7 +6,7 @@ using namespace std;
 template<class Type>
 ostream& operator<<(ostream& os, ArraySort<Type>& tmp) {
     cout << "[ ";
-    for (int i = 0; i < tmp.length(); i++) {
+    for (size_t i = 0; i < tmp.length(); i++) {
         if (i == tmp.length() - 1) {
             cout << tmp[i] << " ";
         } else {
@@ -20,11 +20,11 @@ ostream& operator<<(ostream& os, ArraySort<Type>& tmp) {
 
 int main(void) {
     srand(time(NULL));
-    ArraySort<int> as(10000000);
+    ArraySort<int> as(100000000000);
 
     // Selection Sort;
     cout << "Selection Sort Test" << endl;
-    for (int i = 0; i < as.length(); i++) {
+    for (size_t i = 0; i < as.length(); i++) {
         as.setValue(i, rand() % 100);
     }
     // as.selection_sort();

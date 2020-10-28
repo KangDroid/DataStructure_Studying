@@ -7,22 +7,22 @@ class ArraySort {
 private:
     Type* array_pointer;
     Type* duplicate_sort;
-    int length_array;
+    size_t length_array;
 
 public:
-    ArraySort(int preserve);
+    ArraySort(size_t preserve);
     ArraySort();
     ~ArraySort();
 
     // Reserve
-    void reserve(int amount = 10);
+    void reserve(size_t amount = 10);
 
     // Getter
-    int length();
-    Type operator[](int idx);
+    size_t length();
+    Type operator[](size_t idx);
 
     // Setter
-    void setValue(int idx, Type t);
+    void setValue(size_t idx, Type t);
 
     // Sort Algorithm
     void selection_sort();
@@ -30,17 +30,17 @@ public:
     void bubble_sort();
 
     // Merge(Not sort) Algorithm
-    void merge(Type* first_half, Type* second_half, int first_length, int second_length);
-    void _merge(Type* array, int start, int middle, int end);
+    void merge(Type* first_half, Type* second_half, size_t first_length, size_t second_length);
+    void _merge(Type* array, size_t start, size_t middle, size_t end);
 
     void merge_sort();
-    void _merge_sort(Type* array, int start_point, int endpoint);
+    void _merge_sort(Type* array, size_t start_point, size_t endpoint);
 
     // Sort Checker
     bool is_sorted();
 
     void print() {
-        for (int i = 0; i < length_array; i++) {
+        for (size_t i = 0; i < length_array; i++) {
             cout << array_pointer[i] << " ";
         }
         cout << endl;
@@ -48,7 +48,7 @@ public:
 };
 
 template<typename Type>
-ArraySort<Type>::ArraySort(int preserve) {
+ArraySort<Type>::ArraySort(size_t preserve) {
     this->length_array = preserve;
     this->array_pointer = new Type[length_array];
     this->duplicate_sort = new Type[length_array];
@@ -61,13 +61,13 @@ void ArraySort<Type>::merge_sort() {
 }
 
 template<typename Type>
-void ArraySort<Type>::_merge_sort(Type* array, int start_point, int endpoint) {
+void ArraySort<Type>::_merge_sort(Type* array, size_t start_point, size_t endpoint) {
     if (start_point < endpoint) {
-        int middle = (start_point+endpoint)/2;
+        size_t middle = (start_point+endpoint)/2;
         _merge_sort(array, start_point, middle);
         _merge_sort(array, middle+1, endpoint);
         _merge(array, start_point, middle, endpoint);
-        // Merge array - start_point ~ middle
+        // Merge array - start_posize_t ~ middle
         // Merge Array - middle+1 ~ endpoint
     }
 }
@@ -84,11 +84,11 @@ ArraySort<Type>::~ArraySort() {
 }
 
 template<typename Type>
-void ArraySort<Type>::reserve(int amount) {
-    int tmplength = this->length_array;
+void ArraySort<Type>::reserve(size_t amount) {
+    size_t tmplength = this->length_array;
     this->length_array += amount;
     Type *tmp = new Type[length_array];
-    for (int i = 0; i < tmplength; i++) {
+    for (size_t i = 0; i < tmplength; i++) {
         if (i < tmplength) {
             tmp[i] = array_pointer[i];
         }
@@ -104,20 +104,20 @@ void ArraySort<Type>::reserve(int amount) {
 }
 
 template<typename Type>
-int ArraySort<Type>::length() {
+size_t ArraySort<Type>::length() {
     return this->length_array;
 }
 
 template<typename Type>
-void ArraySort<Type>::setValue(int idx, Type t) {
+void ArraySort<Type>::setValue(size_t idx, Type t) {
     this->array_pointer[idx] = t;
 }
 
 template<typename Type>
 void ArraySort<Type>::selection_sort() {
-    for (int i = 0; i < length_array-1; i++) {
-        int minidx = i;
-        for (int j = i+1; j < length_array; j++) {
+    for (size_t i = 0; i < length_array-1; i++) {
+        size_t minidx = i;
+        for (size_t j = i+1; j < length_array; j++) {
             if (array_pointer[j] < array_pointer[minidx]) {
                 minidx = j;
             }
@@ -131,9 +131,9 @@ void ArraySort<Type>::selection_sort() {
 
 template<typename Type>
 void ArraySort<Type>::insertion_sort() {
-    int i, j;
+    size_t i, j;
     for (i = 1; i < length_array; i++) {
-        int key = array_pointer[i];
+        size_t key = array_pointer[i];
         for (j = i-1; j >= 0; j--) {
             if (key < array_pointer[j]) {
                 array_pointer[j+1] = array_pointer[j];
@@ -147,8 +147,8 @@ void ArraySort<Type>::insertion_sort() {
 
 template<typename Type>
 void ArraySort<Type>::bubble_sort() {
-    for (int i = 0; i < length_array; i++) {
-        for (int j = 0; j < length_array; j++) {
+    for (size_t i = 0; i < length_array; i++) {
+        for (size_t j = 0; j < length_array; j++) {
             if (array_pointer[j] > array_pointer[i]) {
                 // swap j and i
                 Type tmp = array_pointer[j];
@@ -159,8 +159,8 @@ void ArraySort<Type>::bubble_sort() {
     }
 }
 template<typename Type>
-void ArraySort<Type>::_merge(Type* array, int start, int middle, int end) {
-    int first_idx = start, second_idx = middle+1, add_idx = start;
+void ArraySort<Type>::_merge(Type* array, size_t start, size_t middle, size_t end) {
+    size_t first_idx = start, second_idx = middle+1, add_idx = start;
     while (first_idx <= middle && second_idx <= end) {
         if (array[first_idx] < array[second_idx]) {
             duplicate_sort[add_idx++] = array[first_idx++];
@@ -178,15 +178,15 @@ void ArraySort<Type>::_merge(Type* array, int start, int middle, int end) {
             duplicate_sort[add_idx++] = array[second_idx++];
         }
     }
-    for (int i = start; i <= end; i++) {
+    for (size_t i = start; i <= end; i++) {
         array[i] = duplicate_sort[i];
     }
 }
 
 template<typename Type>
-void ArraySort<Type>::merge(Type* first_half, Type* second_half, int first_length, int second_length) {
-    int first_iter = 0, second_iter = 0, merge_iter = 0;
-    const int new_length = first_length + second_length;
+void ArraySort<Type>::merge(Type* first_half, Type* second_half, size_t first_length, size_t second_length) {
+    size_t first_iter = 0, second_iter = 0, merge_iter = 0;
+    const size_t new_length = first_length + second_length;
     Type* tmp = new Type[new_length];
     while (second_iter < second_length && first_iter < first_length) {
         if (first_half[first_iter] < second_half[second_iter]) {
@@ -214,7 +214,7 @@ void ArraySort<Type>::merge(Type* first_half, Type* second_half, int first_lengt
     }
 
     cout << "Combined one:" << endl;
-    for (int i = 0; i < new_length; i++) {
+    for (size_t i = 0; i < new_length; i++) {
         cout << tmp[i] << endl;
     }
     delete[] tmp;
@@ -222,7 +222,7 @@ void ArraySort<Type>::merge(Type* first_half, Type* second_half, int first_lengt
 
 template<typename Type>
 bool ArraySort<Type>::is_sorted() {
-    for (int i = 0; i < length_array-1; i++) {
+    for (size_t i = 0; i < length_array-1; i++) {
         if (array_pointer[i] > array_pointer[i+1]) {
             return false;
         }
@@ -231,7 +231,7 @@ bool ArraySort<Type>::is_sorted() {
 }
 
 template<typename Type>
-Type ArraySort<Type>::operator[](int idx) {
+Type ArraySort<Type>::operator[](size_t idx) {
     if (idx < 0 || idx > length_array - 1) {
         return -10;
     }
